@@ -3,6 +3,7 @@ const gridContainer = document.getElementById("grid-container");
 const restartButton = document.getElementById("restart-btn");
 
 let score = 0;
+let finish = false;
 
 const scoreElement = document.getElementById("score");
 
@@ -13,9 +14,9 @@ function updateScore(value) {
 
 restartButton.addEventListener("click", () => {
     scoreElement.textContent = 0;
+    finish = false;
     cleanGame();
     startGame();
-    alert("Subnormal");
 })
 
 function generateNewRandom() {
@@ -24,10 +25,11 @@ function generateNewRandom() {
         if (i === position) {
             if (gridContainer.children[i].textContent === "")
                 gridContainer.children[i].textContent = getRandomInit();
-            else
+            else {
                 generateNewRandom();
+                break ;
+            }
         }
-
     }
 }
 
@@ -49,6 +51,15 @@ function startGame() {
     }
 }
 
+function checkWinCondition() {
+    for (let i = 0; i < gridContainer.children.length; i++) {
+        if (gridContainer.children[i].textContent === '2048') {
+            return true;
+        }
+    }
+    return false;
+}
+
 function moveAndMerge(line) {
     let newLine = line.filter(val => val !== 0);
 
@@ -57,11 +68,13 @@ function moveAndMerge(line) {
             newLine[i] = newLine[i] * 2;
             updateScore(newLine[i]);
             newLine[i + 1] = 0;
-            if (newLine[i] === 2048)
-                alert("You Win!!")
         }
     }
-
+    
+    if (checkWinCondition()) {
+        document.getElementById("win-message").style.display = "block";
+        finish = true;
+    }
     newLine = newLine.filter(val => val !== 0);
 
     while (newLine.length < 4) {
@@ -70,14 +83,6 @@ function moveAndMerge(line) {
 
     return newLine;
 }
-
-function updateTilePosition(tile, row, col) {
-    const x = col * 100;
-    const y = row * 100;
-    tile.style.transition = "transform 0.2s ease";
-    tile.style.transform = `translate(${x}px, ${y}px)`;
-}
-
 
 function movementUp() {
     for (let col = 0; col < 4; col++) {
@@ -155,6 +160,8 @@ function movementDown() {
 }
 
 document.addEventListener('keydown', (event) => {
+    if (finish)
+        return ;
     if (event.key == "ArrowUp") {
         movementUp();
     }

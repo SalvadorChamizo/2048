@@ -61,3 +61,7 @@ html, body {
     position: relative;
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
+
+.message {
+    display: none;
+}
