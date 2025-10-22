@@ -13,8 +13,9 @@ A simple clone of the classic 2048 puzzle game.
 ### Clone the Repo
 
 ```bash
-git clone https://github.com/yourusername/2048-game.git
-cd 2048-game
+git clone https://github.com/SalvadorChamizo/2048.git
+cd 2048
+cd ex00
 ```
 
 ### Open the Game
