@@ -20,16 +20,17 @@ restartButton.addEventListener("click", () => {
 })
 
 function generateNewRandom() {
-    const position = getRandomPosition("");
-    for (let i = 0; i < gridContainer.children.length; ++i) {
-        if (i === position) {
-            if (gridContainer.children[i].textContent === "")
-                gridContainer.children[i].textContent = getRandomInit();
-            else {
-                generateNewRandom();
-                break ;
-            }
+    let position = getRandomPosition("");
+    let attempts = 0;
+
+    while (attempts < gridContainer.children.length) {
+        if (gridContainer.children[position].textContent === "") {
+            gridContainer.children[position].textContent = getRandomInit();
+            return;
         }
+
+        position = getRandomPosition("");
+        attempts++;
     }
 }
 
